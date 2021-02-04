@@ -21,8 +21,8 @@
       <td>{{$quiz->status}}</td>
       <td>{{$quiz->finished_at}}</td>
       <td>
-      <a href="#" class="btn bnt-sm btn-primary"><i class="fa fa-pen"></i></a>
-      <a href="#" class="btn bnt-sm btn-danger"><i class="fa fa-times"></i></a>
+      <a href="{{route('quizler.edit',$quiz->id)}}" class="btn bnt-sm btn-primary"><i class="fa fa-pen"></i></a>
+      <a href="{{route('quizler.destroy',$quiz->id)}}" class="btn bnt-sm btn-danger"><i class="fa fa-times"></i></a>
       </td>
     </tr>
     @endforeach
