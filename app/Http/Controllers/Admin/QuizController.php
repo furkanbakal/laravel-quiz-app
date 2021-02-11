@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Quiz;
 use App\Http\Requests\QuizCreateRequest;
 use App\Http\Requests\QuizUpdateRequest;
+use Carbon\Carbon;
 
 class QuizController extends Controller
 {
@@ -17,7 +18,17 @@ class QuizController extends Controller
      */
     public function index()
     {
-        $quizzes=Quiz::paginate(5);
+        $quizzes = Quiz::withCount('question');
+
+        if(request()->get('title')){
+            $quizzes=$quizzes->where('title','LIKE',"%".request()->get('title')."%");
+        }
+        if (request()->get('status')) {
+            $quizzes=$quizzes->where('status',request()->get('status'));
+        }
+
+        $quizzes=$quizzes->paginate(5);
+
         return view('admin.quizler.list',compact('quizzes'));
     }
 
@@ -76,7 +87,7 @@ class QuizController extends Controller
     public function update(QuizUpdateRequest $request, $id)
     {
         $quiz=Quiz::find($id) ?? abort('404','Quiz bulunamadı...');
-        Quiz::where('id',$id)->update($request->except(['_method','_token']));
+        Quiz::find($id)->update($request->except(['_method','_token']));
 
         return redirect()->route('quizler.index')->withSuccess('Quiz başarıyla güncellendi');
     }

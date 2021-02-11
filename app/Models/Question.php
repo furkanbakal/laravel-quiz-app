@@ -7,5 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
 {
+    protected $fillable=[
+        'question',
+        'answer1',
+        'answer2',
+        'answer3',
+        'answer4',
+        'correct_answer',
+        'image',
+    ];
+
     use HasFactory;
 }
