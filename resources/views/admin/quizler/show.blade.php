@@ -2,32 +2,14 @@
     <x-slot name="header">{{$quiz->title}}</x-slot>
   <div class="card">
   <div class="card-body">
+       <h5 class="card-title">
+    <a href="{{route('quizler.index')}}" class="btn btn-sm btn-secondary"><i class="fa fa-arrow-left"></i> Quizlere Dön</a>
+    </h5>
     <div class="row">
         <div class="col-md-4">
           <ul class="list-group">
-            @if($quiz->my_Rank)
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            Sıralamanız   
-            <span class="badge badge-primary badge-pill">{{$quiz->my_rank}}</span>
-          </li>
-            @endif
-
-            @if($quiz->my_result)
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-     Puan:   
-    <span class="badge badge-primary badge-pill">{{$quiz->my_result->point}}</span>
-  </li>
-      @endif
-       @if($quiz->my_result)
-     <li class="list-group-item d-flex justify-content-between align-items-center">
-     Doğru / Yanlış Sayısı: 
-     <div class="float-right">  
-      <span class="badge badge-success badge-pill">{{$quiz->my_result->correct}} Doğru</span>
-      <span class="badge badge-danger badge-pill">{{$quiz->my_result->wrong}} Yanlış</span>
-    </div>
-     </li>
-     @endif
-               @if($quiz->finished_at)
+        
+            @if($quiz->finished_at)
     <li class="list-group-item d-flex justify-content-between align-items-center">
      Sınav Bitiş Tarihi   
     <span title="{{$quiz->finished_at}}" class="badge badge-secondary badge-pill">{{$quiz->finished_at->diffForHumans()}}</span>
@@ -74,12 +56,25 @@
         </div>
         <div class="col-md-8">
             <p>{{$quiz->description}}</p>
-            @if($quiz->my_result)
-    <a href="{{route('quiz.join',$quiz->slug)}}" class="btn btn-danger btn-block btn-sm">Sınavı Görüntüle</a>
-            @elseif($quiz->finished_at>now())
-    <a href="{{route('quiz.join',$quiz->slug)}}" class="btn btn-primary btn-block btn-sm">Sınava Katıl</a>
-          @endif
-        </div>
+     
+        <table class="table table-bordered mt-3">
+  <thead>
+    <tr>
+      <th scope="col">Ad Soyad</th>
+      <th scope="col">Aldığı Puan</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+      @foreach($quiz->results as $result)
+    <tr>
+      <td> {{$result->user->name}} </td>
+      <td> {{$result->point}} </td>
+      
+    </tr>
+    @endforeach
+  </tbody>
+</table>
     </div>
   </div>
 </div>

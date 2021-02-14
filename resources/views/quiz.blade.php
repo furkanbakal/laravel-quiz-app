@@ -3,7 +3,8 @@
   <div class="card">
     <div class="card-body">
         
-      <form action="#" method="POST">
+      <form action="{{route('quiz.result' ,$quiz->slug)}}" method="POST">
+        @csrf
     @foreach($quiz->question as $question)
      <p style="color:red;">Soru {{$loop->iteration}}:</p>  <strong>{{$question->question}}</strong>
     @if($question->image)
